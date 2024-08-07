@@ -126,3 +126,35 @@ function isValidUrl(urlString) {
     return false;
   }
 }
+
+chrome.tabs.onActivated.addListener(activeInfo => {
+  if (activeTabId) {
+    updateTimeSpent(activeTabId);
+  }
+  activeTabId = activeInfo.tabId;
+  startTime = new Date();
+  checkBilibili(activeTabId);
+});
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete') {
+    if (tabId === activeTabId) {
+      startTime = new Date();
+    } else {
+      updateTimeSpent(activeTabId);
+      activeTabId = tabId;
+      startTime = new Date();
+    }
+    checkBilibili(tabId);
+  }
+});
+
+chrome.tabs.onRemoved.addListener(tabId => {
+  if (tabId === activeTabId) {
+    updateTimeSpent(tabId);
+    activeTabId = null;
+    startTime = null;
+  }
+  clearAllIntervals();
+});
+
