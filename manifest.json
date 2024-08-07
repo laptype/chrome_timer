@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Website Timer",
+  "version": "1.2",
+  "description": "Track the time spent on different websites",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "notifications"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
+}
